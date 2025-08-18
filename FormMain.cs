@@ -21,6 +21,9 @@ namespace Lite_M_Up
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            // A temporary stringbuilder to display the matrix
+            // The matrix size will be used to initialize the game board
+            // values as well as the buttons
             var sb = new StringBuilder();
             var row = LightBoard.Matrix.GetLength(0);
             var col = LightBoard.Matrix.GetLength(1);
