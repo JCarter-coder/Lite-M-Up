@@ -17,28 +17,180 @@ namespace Lite_M_Up
         public FormMain()
         {
             InitializeComponent();
+            GenerateBoard();
         }
+
+        // A dictionary to hold the buttons for each cell in the matrix
+        private readonly Dictionary<(int r, int c), Button> _buttons = new Dictionary<(int r, int c), Button>();
+
+        private void GenerateBoard()
+        {
+            // Generate the game board based on the matrix size
+            // Future iterations of this should allow to adjust the board size
+            // Working with a 3x3 matrix for now
+            var m = LightBoard.Matrix;
+            int rows = m.GetLength(0);
+            int cols = m.GetLength(1);
+
+            // Clear the existing controls in the table layout
+            tableBoard.SuspendLayout();
+            tableBoard.Controls.Clear();
+
+            // Create tiles within the table for each cell in the given matrix
+            tableBoard.RowCount = rows;
+            tableBoard.ColumnCount = cols;
+
+            // Clear existing row and column styles to reset the table layout
+            tableBoard.RowStyles.Clear();
+            tableBoard.ColumnStyles.Clear();
+
+            // Calculate the percentage for each row and column
+            float rowPercent = 100f / rows;
+            float colPercent = 100f / cols;
+
+            for (int r = 0; r < rows; r++)
+            {
+                // This sizes each row as a percentage of the total height of the table
+                tableBoard.RowStyles.Add(new RowStyle(SizeType.Percent, rowPercent));
+            }
+            for (int c = 0; c < cols; c++)
+            {
+                // This sizes each col as a percentage of the total width of the table
+                tableBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, colPercent));
+            }
+
+            // Clear the dictionary of buttons
+            _buttons.Clear(); 
+
+            // Create buttons for each cell in the matrix
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    // Set the button properties to each cell in this table board
+                    Button btn = new Button
+                    {
+                        // Fill the button in the cell
+                        Dock = DockStyle.Fill,
+
+                        Margin = new Padding(3),
+
+                        // Set the button's flat style to flat
+                        FlatStyle = FlatStyle.Flat,
+
+                        // Don't allow the button to receive focus by tabbing through them
+                        TabStop = false,
+                        
+                        // Using text for visual development purposes only
+                        // Display 1 for true, 0 for false
+                        Text = m[r, c] ? "1" : "0", 
+
+                        // Store the position in the button's Tag
+                        Tag = (r, c) 
+                    };
+
+                    // Set the button's background color
+                    btn.BackColor = ColorChange(m[r, c]);
+                    // Attach click event handler
+                    btn.Click += Tile_Click;
+                    // Add the button to the dictionary with its position as the key
+                    _buttons[(r, c)] = btn;
+                    // Add created button to the table layout
+                    tableBoard.Controls.Add(btn, c, r); 
+                }
+                // Continue to the next row
+                tableBoard.ResumeLayout();
+            }
+        }
+
+        // A list of tuples representing the cell and corresponding neighbors in the matrix
+        private static readonly (int dictR, int dictC)[] Neighbors = new[]
+        {
+            (0, 0), // Current cell
+            (-1, 0), // Up
+            (1, 0),  // Down
+            (0, -1), // Left
+            (0, 1)   // Right
+        };
+
+        // Toggle the cell and its neighbors when a button is clicked
+        private void ToggleCells(int r, int c)
+        {
+            foreach (var (dictR, dictC) in Neighbors)
+            {
+                IsInBounds(r + dictR, c + dictC);
+            }
+        }
+
+        // Check if the cell is within the bounds of the matrix
+        private void IsInBounds(int r, int c)
+        {
+            var m = LightBoard.Matrix;
+            // If the row or column is out of bounds, return out of this method
+            if (r < 0 || r >= m.GetLength(0) || c < 0 || c >= m.GetLength(1)) return;
+            // Otherwise, toggle the cell's value
+            m[r, c] = !m[r, c]; 
+        }
+
+        // Handle the click event for each tile
+        private void Tile_Click(object sender, EventArgs e)
+        {
+            if (sender is Button btn)
+            {
+                var n = LightBoard.Matrix.GetLength(0); // Get the size of the matrix
+                // Get the button that was clicked
+                var (r, c) = ((int r, int c))btn.Tag;
+                // Toggle the value of the cell
+                ToggleCells(r, c);
+                SyncBoardUpdates(r, c);                           
+            }   
+        }
+
+        // Sync the attributes in the button with the matrix
+        private void SyncTile(int r, int c)
+        {
+            var m = LightBoard.Matrix;
+            if (_buttons.TryGetValue((r, c), out Button btn))
+            {
+                // Update the button's text and color based on the matrix value
+                btn.Text = m[r, c] ? "1" : "0";
+                btn.BackColor = ColorChange(m[r, c]);
+            }
+        }
+
+        // Sync the board updates by toggling the cell and its neighbors
+        private void SyncBoardUpdates(int r, int c)
+        {
+            foreach (var (dr, dc) in Neighbors)
+            {
+                SyncTile(r + dr, c + dc);
+            }
+        }
+
+        // A method to change the color of the button based on its state
+        // Make hard coded colors changable when themes are added
+        private static Color ColorChange(bool on) => on ? Color.Yellow : Color.DarkSeaGreen;
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            // A temporary stringbuilder to display the matrix
-            // The matrix size will be used to initialize the game board
-            // values as well as the buttons
-            var sb = new StringBuilder();
-            var row = LightBoard.Matrix.GetLength(0);
-            var col = LightBoard.Matrix.GetLength(1);
+            //// A temporary stringbuilder to display the matrix
+            //// The matrix size will be used to initialize the game board
+            //// values as well as the buttons
+            //var sb = new StringBuilder();
+            //var row = LightBoard.Matrix.GetLength(0);
+            //var col = LightBoard.Matrix.GetLength(1);
             
-            for (int r = 0; r < row; r++)
-            {
-                for (int c = 0; c < col; c++)
-                {
-                    sb.Append(LightBoard.Matrix[r, c] ? "1 " : "0 ");
-                }
-                sb.AppendLine();
-            }
+            //for (int r = 0; r < row; r++)
+            //{
+            //    for (int c = 0; c < col; c++)
+            //    {
+            //        sb.Append(LightBoard.Matrix[r, c] ? "1 " : "0 ");
+            //    }
+            //    sb.AppendLine();
+            //}
 
-            string message = sb.ToString();
-            MessageBox.Show(message);
+            //string message = sb.ToString();
+            //MessageBox.Show(message);
         }
     }
 }
