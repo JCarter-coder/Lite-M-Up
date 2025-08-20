@@ -90,7 +90,7 @@ namespace Lite_M_Up
                         
                         // Using text for visual development purposes only
                         // Display 1 for true, 0 for false
-                        Text = m[r, c] ? "1" : "0", 
+                        //Text = m[r, c] ? "1" : "0", 
 
                         // Store the position in the button's Tag
                         Tag = (r, c) 
@@ -150,7 +150,24 @@ namespace Lite_M_Up
                 // Toggle the value of the cell
                 ToggleCells(r, c);
                 SyncBoardUpdates(r, c);                           
-            }   
+            }
+            // If all tiles are turned on, show a message box
+            if (LightBoard.Matrix.Cast<bool>().All(x => x))
+            {
+                // Stop the music when the game is won
+                MusicPlayer.Stop();
+                // Begin congrats sound
+                MusicPlayer.ChangeLoop(false);
+                MusicPlayer.Play(_musicFiles[4]);
+                // Show a message box to congratulate the player
+                MessageBox.Show(
+                    "Congratulations! You completed the puzzle!",
+                    "Lite M Up (v1.0)",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                MusicPlayer.Stop();
+            }
         }
 
         // Sync the attributes in the button with the matrix
@@ -160,7 +177,7 @@ namespace Lite_M_Up
             if (_buttons.TryGetValue((r, c), out Button btn))
             {
                 // Update the button's text and color based on the matrix value
-                btn.Text = m[r, c] ? "1" : "0";
+                //btn.Text = m[r, c] ? "1" : "0";
                 btn.BackColor = ColorChange(m[r, c]);
             }
         }
@@ -195,8 +212,10 @@ namespace Lite_M_Up
                 _musicFiles = new List<string>();
             }
 
-            // Begin playing the background music
-            MusicPlayer.Play(_musicFiles[0]); 
+            // Play an introductory tune or music
+            MusicPlayer.ChangeLoop(false);
+            MusicPlayer.Play(_musicFiles[2]);
+
 
             MessageBox.Show(
                 "Welcome to Lite M Up!\n" +
@@ -207,6 +226,12 @@ namespace Lite_M_Up
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
+            // Stop the introductory music
+            MusicPlayer.Stop();
+
+            // Begin playing the main background music
+            MusicPlayer.ChangeLoop(true);
+            MusicPlayer.Play(_musicFiles[3]);
         }
     }
 }

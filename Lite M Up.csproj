@@ -96,6 +96,15 @@
     <Content Include="Resources\MP3_library\2019-08-25_-_8bit-Smooth_Presentation_-_David_Fesliyan.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\MP3_library\8-bit-logo-291104.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MP3_library\fight-for-the-future-336841.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MP3_library\game-8-bit-on-short-278081.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\MP3_library\SLOWER-TEMPO2019-12-09_-_Retro_Forest_-_David_Fesliyan.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
