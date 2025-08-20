@@ -151,23 +151,33 @@ namespace Lite_M_Up
                 ToggleCells(r, c);
                 SyncBoardUpdates(r, c);                           
             }
+
+            // CHECK FOR WIN CONDITION
+
             // If all tiles are turned on, show a message box
             if (LightBoard.Matrix.Cast<bool>().All(x => x))
             {
-                // Stop the music when the game is won
-                MusicPlayer.Stop();
-                // Begin congrats sound
-                MusicPlayer.ChangeLoop(false);
-                MusicPlayer.Play(_musicFiles[4]);
-                // Show a message box to congratulate the player
-                MessageBox.Show(
-                    "Congratulations! You completed the puzzle!",
-                    "Lite M Up (v1.0)",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-                MusicPlayer.Stop();
+                GameWin();
             }
+        }
+
+        // A method to handle the game win condition
+        private void GameWin()
+        {
+            // Stop the music when the game is won
+            MusicPlayer.Stop();
+            // Play an ending song (game-8-bit-on-short)
+            // Change the loop to false so ending doesn't repeat
+            MusicPlayer.ChangeLoop(false);
+            MusicPlayer.Play(_musicFiles[4]);
+            // Show a message box to congratulate the player
+            MessageBox.Show(
+                "Congratulations! You completed the puzzle!",
+                "Lite M Up (v1.0)",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+            MusicPlayer.Stop();
         }
 
         // Sync the attributes in the button with the matrix
@@ -212,7 +222,8 @@ namespace Lite_M_Up
                 _musicFiles = new List<string>();
             }
 
-            // Play an introductory tune or music
+            // Play an introductory tune (8-bit-logo)
+            // Change the loop to false so intro sound doesn't repeat
             MusicPlayer.ChangeLoop(false);
             MusicPlayer.Play(_musicFiles[2]);
 
@@ -226,12 +237,20 @@ namespace Lite_M_Up
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
-            // Stop the introductory music
+            // Stop the introductory music before starting the main music
             MusicPlayer.Stop();
 
-            // Begin playing the main background music
+            // Begin playing the main background music in loop mode
             MusicPlayer.ChangeLoop(true);
             MusicPlayer.Play(_musicFiles[3]);
+        }
+
+        private void exit_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Stop the music before exiting the application
+            MusicPlayer.Stop();
+            // Close the application
+            Application.Exit();
         }
     }
 }
