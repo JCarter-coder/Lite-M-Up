@@ -84,6 +84,21 @@
       <Project>{3ef4651f-0621-41e4-8299-1ec9b809c77f}</Project>
       <Name>LogicLMU</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MusicMP3\MusicMP3.csproj">
+      <Project>{6e1f0684-dade-4e71-95fd-f8006a24582c}</Project>
+      <Name>MusicMP3</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\MP3_library\2019-01-10_-_Land_of_8_Bits_-_Stephen_Bennett_-_FesliyanStudios.com.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MP3_library\2019-08-25_-_8bit-Smooth_Presentation_-_David_Fesliyan.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MP3_library\SLOWER-TEMPO2019-12-09_-_Retro_Forest_-_David_Fesliyan.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

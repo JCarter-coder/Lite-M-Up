@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LogicLMU;
+using MusicMP3;
 
 namespace Lite_M_Up
 {
     public partial class FormMain : Form
     {
         public GameMatrix LightBoard = new GameMatrix(3); // Initialize a 3x3 game matrix
+
+        public MP3Player MusicPlayer = new MP3Player(); // Create an instance of the MP3 player
+
+        public List<string> _musicFiles;
+
         public FormMain()
         {
             InitializeComponent();
@@ -173,24 +180,33 @@ namespace Lite_M_Up
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            //// A temporary stringbuilder to display the matrix
-            //// The matrix size will be used to initialize the game board
-            //// values as well as the buttons
-            //var sb = new StringBuilder();
-            //var row = LightBoard.Matrix.GetLength(0);
-            //var col = LightBoard.Matrix.GetLength(1);
-            
-            //for (int r = 0; r < row; r++)
-            //{
-            //    for (int c = 0; c < col; c++)
-            //    {
-            //        sb.Append(LightBoard.Matrix[r, c] ? "1 " : "0 ");
-            //    }
-            //    sb.AppendLine();
-            //}
+            // Build path to the music files
+            string musicFilesPath = Path.Combine(Application.StartupPath, "Resources", "MP3_library");
+            // Check if the music directory exists
+            if (Directory.Exists(musicFilesPath))
+            {
+                // Get all mp3 files in the directory and form a list
+                _musicFiles = Directory
+                    .EnumerateFiles(musicFilesPath, "*.mp3", SearchOption.TopDirectoryOnly)
+                    .ToList();
+            }
+            else
+            {
+                _musicFiles = new List<string>();
+            }
 
-            //string message = sb.ToString();
-            //MessageBox.Show(message);
+            // Begin playing the background music
+            MusicPlayer.Play(_musicFiles[0]); 
+
+            MessageBox.Show(
+                "Welcome to Lite M Up!\n" +
+                "Click on the tiles to toggle them on and off.\n" +
+                "The goal is to turn all tiles on.\n" +
+                "Enjoy this puzzle!",
+                "Lite M Up (v1.0)",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
         }
     }
 }

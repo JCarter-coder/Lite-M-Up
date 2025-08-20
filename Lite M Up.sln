@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lite M Up", "Lite M Up.csproj", "{1D6056A5-D8F3-4AA7-9D02-C251586A864B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLMU", "..\LogicLMU\LogicLMU.csproj", "{3EF4651F-0621-41E4-8299-1EC9B809C77F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicMP3", "..\MusicMP3\MusicMP3.csproj", "{6E1F0684-DADE-4E71-95FD-F8006A24582C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3EF4651F-0621-41E4-8299-1EC9B809C77F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EF4651F-0621-41E4-8299-1EC9B809C77F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EF4651F-0621-41E4-8299-1EC9B809C77F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E1F0684-DADE-4E71-95FD-F8006A24582C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E1F0684-DADE-4E71-95FD-F8006A24582C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E1F0684-DADE-4E71-95FD-F8006A24582C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E1F0684-DADE-4E71-95FD-F8006A24582C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
