@@ -15,16 +15,25 @@ namespace Lite_M_Up
 {
     public partial class FormMain : Form
     {
-        public GameMatrix LightBoard = new GameMatrix(3); // Initialize a 3x3 game matrix
+        public GameMatrix LightBoard; // = new GameMatrix(3); // Initialize a 3x3 game matrix
 
         public MP3Player MusicPlayer = new MP3Player(); // Create an instance of the MP3 player
 
         public List<string> _musicFiles;
 
+        private int _songIndex = 5; // Default song index for the music player
+
+        private int _matrixSize = 3; // Default matrix size
+
+        private bool _firstLoad = true; // Flag to check if the form is loaded for the first time
+
+        public Color onColor = Color.Yellow; // Color for the "on" state of the tiles
+
+        public Color offColor = Color.DarkSeaGreen; // Color for the "off" state of the tiles
+
         public FormMain()
         {
             InitializeComponent();
-            GenerateBoard();
         }
 
         // A dictionary to hold the buttons for each cell in the matrix
@@ -34,7 +43,8 @@ namespace Lite_M_Up
         {
             // Generate the game board based on the matrix size
             // Future iterations of this should allow to adjust the board size
-            // Working with a 3x3 matrix for now
+            // Initialize the game matrix with the specified size
+            LightBoard = new GameMatrix(_matrixSize); 
             var m = LightBoard.Matrix;
             int rows = m.GetLength(0);
             int cols = m.GetLength(1);
@@ -169,7 +179,9 @@ namespace Lite_M_Up
             // Play an ending song (game-8-bit-on-short)
             // Change the loop to false so ending doesn't repeat
             MusicPlayer.ChangeLoop(false);
-            MusicPlayer.Play(_musicFiles[4]);
+            // Play the ending song (index 4 in the music files)
+            _songIndex = 4;
+            MusicPlayer.Play(_musicFiles[_songIndex]);
             // Show a message box to congratulate the player
             MessageBox.Show(
                 "Congratulations! You completed the puzzle!",
@@ -203,10 +215,14 @@ namespace Lite_M_Up
 
         // A method to change the color of the button based on its state
         // Make hard coded colors changable when themes are added
-        private static Color ColorChange(bool on) => on ? Color.Yellow : Color.DarkSeaGreen;
+        private Color ColorChange(bool on) => on ? onColor : offColor;
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            // Set the form's background color
+            this.BackColor = Color.FromArgb(0, 15, 15);
+
+            GenerateBoard();
             // Build path to the music files
             string musicFilesPath = Path.Combine(Application.StartupPath, "Resources", "MP3_library");
             // Check if the music directory exists
@@ -222,12 +238,30 @@ namespace Lite_M_Up
                 _musicFiles = new List<string>();
             }
 
-            // Play an introductory tune (8-bit-logo)
+            if (_firstLoad)
+            {
+                // Show a welcome message only on the first load
+                ShowWelcomeMessage();
+            }
+
+            // Begin playing the main background music in loop mode
+            MusicPlayer.ChangeLoop(true);
+            MusicPlayer.Play(_musicFiles[_songIndex]);
+        }
+
+        private void ShowWelcomeMessage()
+        {
+            // Set the flag to false after the first load
+            _firstLoad = false;
+
+            // Introduction sound (8-bit-logo)
+            _songIndex = 2; 
             // Change the loop to false so intro sound doesn't repeat
             MusicPlayer.ChangeLoop(false);
-            MusicPlayer.Play(_musicFiles[2]);
+            MusicPlayer.Play(_musicFiles[_songIndex]);
 
-
+            // Set the flag to false after the first load
+            // Show a welcome message only on the first load
             MessageBox.Show(
                 "Welcome to Lite M Up!\n" +
                 "Click on the tiles to toggle them on and off.\n" +
@@ -237,12 +271,11 @@ namespace Lite_M_Up
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
+
             // Stop the introductory music before starting the main music
             MusicPlayer.Stop();
-
-            // Begin playing the main background music in loop mode
-            MusicPlayer.ChangeLoop(true);
-            MusicPlayer.Play(_musicFiles[3]);
+            // Default music (SLOWER-TEMPO2019)
+            _songIndex = 5;
         }
 
         private void exit_ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -251,6 +284,42 @@ namespace Lite_M_Up
             MusicPlayer.Stop();
             // Close the application
             Application.Exit();
+        }
+
+        // User can select the matrix size from the menu
+
+        private void threeSq_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Default level with 3x3 matrix
+            _matrixSize = 3;
+            // Stop the music before reloading the board
+            MusicPlayer.Stop();
+            // Default music (SLOWER-TEMPO2019)
+            _songIndex = 5;
+            // Reload the form to generate the board with the new matrix size
+            FormMain_Load(sender, e);
+        }
+
+        private void fourSq_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Medium level with 4x4 matrix
+            _matrixSize = 4;
+            MusicPlayer.Stop();
+            // Medium music (Land_of_8_bits)
+            _songIndex = 0;
+            // Reload the form to generate the board with the new matrix size
+            FormMain_Load(sender, e);
+        }
+
+        private void fiveSq_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Hardest level with 5x5 matrix
+            _matrixSize = 5;
+            MusicPlayer.Stop();
+            // Hard music (fight-for-the-future)
+            _songIndex = 3;
+            // Reload the form to generate the board with the new matrix size
+            FormMain_Load(sender, e);
         }
     }
 }
