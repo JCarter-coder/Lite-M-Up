@@ -38,6 +38,10 @@
             this.fiveSq_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exit_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.theme_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defaultTheme_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.redBlackTheme_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jediSithTheme_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelBorderContainer = new System.Windows.Forms.Panel();
             this.panelContainer_Board.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +65,7 @@
             // panelContainer_Board
             // 
             this.panelContainer_Board.Controls.Add(this.tableBoard);
-            this.panelContainer_Board.Location = new System.Drawing.Point(12, 103);
+            this.panelContainer_Board.Location = new System.Drawing.Point(157, 69);
             this.panelContainer_Board.Name = "panelContainer_Board";
             this.panelContainer_Board.Size = new System.Drawing.Size(400, 400);
             this.panelContainer_Board.TabIndex = 1;
@@ -99,21 +103,21 @@
             // threeSq_ToolStripMenuItem
             // 
             this.threeSq_ToolStripMenuItem.Name = "threeSq_ToolStripMenuItem";
-            this.threeSq_ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.threeSq_ToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
             this.threeSq_ToolStripMenuItem.Text = "3 x 3";
             this.threeSq_ToolStripMenuItem.Click += new System.EventHandler(this.threeSq_ToolStripMenuItem_Click);
             // 
             // fourSq_ToolStripMenuItem
             // 
             this.fourSq_ToolStripMenuItem.Name = "fourSq_ToolStripMenuItem";
-            this.fourSq_ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fourSq_ToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
             this.fourSq_ToolStripMenuItem.Text = "4 x 4";
             this.fourSq_ToolStripMenuItem.Click += new System.EventHandler(this.fourSq_ToolStripMenuItem_Click);
             // 
             // fiveSq_ToolStripMenuItem
             // 
             this.fiveSq_ToolStripMenuItem.Name = "fiveSq_ToolStripMenuItem";
-            this.fiveSq_ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fiveSq_ToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
             this.fiveSq_ToolStripMenuItem.Text = "5 x 5";
             this.fiveSq_ToolStripMenuItem.Click += new System.EventHandler(this.fiveSq_ToolStripMenuItem_Click);
             // 
@@ -126,9 +130,41 @@
             // 
             // theme_ToolStripMenuItem
             // 
+            this.theme_ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.defaultTheme_ToolStripMenuItem,
+            this.redBlackTheme_ToolStripMenuItem,
+            this.jediSithTheme_ToolStripMenuItem});
             this.theme_ToolStripMenuItem.Name = "theme_ToolStripMenuItem";
             this.theme_ToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.theme_ToolStripMenuItem.Text = "Theme";
+            // 
+            // defaultTheme_ToolStripMenuItem
+            // 
+            this.defaultTheme_ToolStripMenuItem.Name = "defaultTheme_ToolStripMenuItem";
+            this.defaultTheme_ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.defaultTheme_ToolStripMenuItem.Text = "Default";
+            this.defaultTheme_ToolStripMenuItem.Click += new System.EventHandler(this.defaultTheme_ToolStripMenuItem_Click);
+            // 
+            // redBlackTheme_ToolStripMenuItem
+            // 
+            this.redBlackTheme_ToolStripMenuItem.Name = "redBlackTheme_ToolStripMenuItem";
+            this.redBlackTheme_ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.redBlackTheme_ToolStripMenuItem.Text = "Red / Black";
+            this.redBlackTheme_ToolStripMenuItem.Click += new System.EventHandler(this.redBlackTheme_ToolStripMenuItem_Click);
+            // 
+            // jediSithTheme_ToolStripMenuItem
+            // 
+            this.jediSithTheme_ToolStripMenuItem.Name = "jediSithTheme_ToolStripMenuItem";
+            this.jediSithTheme_ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.jediSithTheme_ToolStripMenuItem.Text = "Jedi / Sith";
+            this.jediSithTheme_ToolStripMenuItem.Click += new System.EventHandler(this.jediSithTheme_ToolStripMenuItem_Click);
+            // 
+            // panelBorderContainer
+            // 
+            this.panelBorderContainer.Location = new System.Drawing.Point(154, 66);
+            this.panelBorderContainer.Name = "panelBorderContainer";
+            this.panelBorderContainer.Size = new System.Drawing.Size(406, 406);
+            this.panelBorderContainer.TabIndex = 3;
             // 
             // FormMain
             // 
@@ -137,6 +173,7 @@
             this.ClientSize = new System.Drawing.Size(733, 515);
             this.Controls.Add(this.panelContainer_Board);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.panelBorderContainer);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.Text = "Lite M Up";
@@ -161,6 +198,10 @@
         private System.Windows.Forms.ToolStripMenuItem fiveSq_ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exit_ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem theme_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem defaultTheme_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem redBlackTheme_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jediSithTheme_ToolStripMenuItem;
+        private System.Windows.Forms.Panel panelBorderContainer;
     }
 }
 

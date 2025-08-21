@@ -25,19 +25,41 @@ namespace Lite_M_Up
 
         private int _matrixSize = 3; // Default matrix size
 
+        // A dictionary to hold the buttons for each cell in the matrix
+        private readonly Dictionary<(int r, int c), Button> _buttons = new Dictionary<(int r, int c), Button>();
+
         private bool _firstLoad = true; // Flag to check if the form is loaded for the first time
 
-        public Color onColor = Color.Yellow; // Color for the "on" state of the tiles
+        public Color onColor = Color.FromArgb(255, 255, 0); // Color for the "on" state of the tiles
 
-        public Color offColor = Color.DarkSeaGreen; // Color for the "off" state of the tiles
+        public Color offColor = Color.FromArgb(50, 23, 61, 0); // Color for the "off" state of the tiles
 
         public FormMain()
         {
             InitializeComponent();
         }
 
-        // A dictionary to hold the buttons for each cell in the matrix
-        private readonly Dictionary<(int r, int c), Button> _buttons = new Dictionary<(int r, int c), Button>();
+        public void ThemeSelector(int x)
+        {
+            if (x == 1)
+            {
+                // Set the colors to Red / Black
+                onColor = Color.FromArgb(255, 0, 0);
+                offColor = Color.FromArgb(50, 20, 20, 20);
+            }
+            else if (x == 2)
+            {
+                // Set the colors to Jedi / Sith
+                onColor = Color.FromArgb(0, 207, 33);
+                offColor = Color.FromArgb(50, 255, 0, 0);
+            }
+            else
+            {
+                // Default theme
+                onColor = Color.FromArgb(255, 255, 0);
+                offColor = Color.FromArgb(50, 23, 61, 0);
+            }
+        }        
 
         private void GenerateBoard()
         {
@@ -90,7 +112,7 @@ namespace Lite_M_Up
                         // Fill the button in the cell
                         Dock = DockStyle.Fill,
 
-                        Margin = new Padding(3),
+                        Margin = new Padding(2),
 
                         // Set the button's flat style to flat
                         FlatStyle = FlatStyle.Flat,
@@ -118,6 +140,8 @@ namespace Lite_M_Up
                 // Continue to the next row
                 tableBoard.ResumeLayout();
             }
+
+            panelBorderContainer.BackColor = onColor; // Match border panel to onColor
         }
 
         // A list of tuples representing the cell and corresponding neighbors in the matrix
@@ -220,9 +244,11 @@ namespace Lite_M_Up
         private void FormMain_Load(object sender, EventArgs e)
         {
             // Set the form's background color
-            this.BackColor = Color.FromArgb(0, 15, 15);
+            this.BackColor = Color.FromArgb(0, 0, 0);
 
+            // Create the game board with the specified matrix size, default is 3x3
             GenerateBoard();
+
             // Build path to the music files
             string musicFilesPath = Path.Combine(Application.StartupPath, "Resources", "MP3_library");
             // Check if the music directory exists
@@ -240,7 +266,7 @@ namespace Lite_M_Up
 
             if (_firstLoad)
             {
-                // Show a welcome message only on the first load
+                // Show a welcome message only on the first load of the application
                 ShowWelcomeMessage();
             }
 
@@ -320,6 +346,21 @@ namespace Lite_M_Up
             _songIndex = 3;
             // Reload the form to generate the board with the new matrix size
             FormMain_Load(sender, e);
+        }
+
+        private void defaultTheme_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ThemeSelector(0);
+        }
+
+        private void redBlackTheme_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ThemeSelector(1);
+        }
+
+        private void jediSithTheme_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ThemeSelector(2);
         }
     }
 }
