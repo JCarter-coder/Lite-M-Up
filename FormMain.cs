@@ -23,16 +23,20 @@ namespace Lite_M_Up
 
         private int _songIndex = 5; // Default song index for the music player
 
-        private int _matrixSize = 3; // Default matrix size
-
-        // A dictionary to hold the buttons for each cell in the matrix
-        private readonly Dictionary<(int r, int c), Button> _buttons = new Dictionary<(int r, int c), Button>();
+        private int _matrixSize = 3; // Default matrix size        
 
         private bool _firstLoad = true; // Flag to check if the form is loaded for the first time
 
         public Color onColor = Color.FromArgb(255, 255, 0); // Color for the "on" state of the tiles
 
         public Color offColor = Color.FromArgb(50, 23, 61, 0); // Color for the "off" state of the tiles
+
+        public int bestScore = 100;
+
+        public int currentScore = 0; // Current score, initialized to 0
+
+        // A dictionary to hold the buttons for each cell in the matrix
+        private readonly Dictionary<(int r, int c), Button> _buttons = new Dictionary<(int r, int c), Button>();
 
         public FormMain()
         {
@@ -58,8 +62,27 @@ namespace Lite_M_Up
                 // Default theme
                 onColor = Color.FromArgb(255, 255, 0);
                 offColor = Color.FromArgb(50, 23, 61, 0);
-            }
-        }        
+            }            
+        }
+        
+        private void ScoreCards()
+        {
+            panelScoreGlobal.SuspendLayout();
+            panelScoreGlobal.BackColor = onColor;
+            panelScoreGlobal.ForeColor = Color.FromArgb(0, 0, 0); ;
+
+            textBoxScoreGlobal.BackColor = onColor;
+            textBoxScoreGlobal.ForeColor = Color.FromArgb(0, 0, 0);
+            textBoxScoreGlobal.TextAlign = HorizontalAlignment.Center;
+
+            panelScoreCurrent.SuspendLayout();
+            panelScoreCurrent.BackColor = onColor;
+            panelScoreCurrent.ForeColor = Color.FromArgb(0, 0, 0); ;
+
+            textBoxScoreCurrent.BackColor = onColor;
+            textBoxScoreCurrent.ForeColor = Color.FromArgb(0, 0, 0);
+            textBoxScoreCurrent.TextAlign = HorizontalAlignment.Center;
+        }
 
         private void GenerateBoard()
         {
@@ -183,7 +206,12 @@ namespace Lite_M_Up
                 var (r, c) = ((int r, int c))btn.Tag;
                 // Toggle the value of the cell
                 ToggleCells(r, c);
-                SyncBoardUpdates(r, c);                           
+                SyncBoardUpdates(r, c);
+
+                // Increment the current score
+                currentScore++;
+                // Update the current score text box
+                textBoxScoreCurrent.Text = currentScore.ToString();
             }
 
             // CHECK FOR WIN CONDITION
@@ -206,13 +234,32 @@ namespace Lite_M_Up
             // Play the ending song (index 4 in the music files)
             _songIndex = 4;
             MusicPlayer.Play(_musicFiles[_songIndex]);
-            // Show a message box to congratulate the player
-            MessageBox.Show(
-                "Congratulations! You completed the puzzle!",
-                "Lite M Up (v1.0)",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
+
+            // Update the best score if the current score is better
+            if (currentScore < bestScore)
+            {
+                bestScore = currentScore;
+                textBoxScoreGlobal.Text = bestScore.ToString();
+                // Show a message box to congratulate the player
+                MessageBox.Show(
+                    "Congratulations! You completed the puzzle\n"+
+                    "and set a new best score of " + bestScore + "!",
+                    "Lite M Up (v1.0)",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            else
+            {
+                // Show a message box to congratulate the player
+                MessageBox.Show(
+                    "Congratulations! You completed the puzzle!",
+                    "Lite M Up (v1.0)",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+                
             MusicPlayer.Stop();
         }
 
@@ -244,10 +291,21 @@ namespace Lite_M_Up
         private void FormMain_Load(object sender, EventArgs e)
         {
             // Set the form's background color
-            this.BackColor = Color.FromArgb(0, 0, 0);
+            this.BackColor = Color.FromArgb(0, 0, 0);  
 
             // Create the game board with the specified matrix size, default is 3x3
             GenerateBoard();
+
+            // Set the score card colors
+            ScoreCards();
+
+            // Set the best score text box to the best score
+            textBoxScoreGlobal.Text = bestScore.ToString();
+
+            // Reset the current score to 0
+            currentScore = 0; 
+            // Set the current score text box to the best score
+            textBoxScoreCurrent.Text = currentScore.ToString();           
 
             // Build path to the music files
             string musicFilesPath = Path.Combine(Application.StartupPath, "Resources", "MP3_library");
