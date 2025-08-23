@@ -1,5 +1,7 @@
 # Lite M Up
 
+Check out my demonstration on YouTube via this link... https://youtu.be/uGY3fAuIexI
+
 This is a game board where the object is to light all of the tiles up. Selecting a tile affects the lights of the four adjacent tiles. The game includes three board sizes (3x3, 4x4, and 5x5) which each include their own chiptune background music, and three color themes. Give it a try!
 
 <img width="318" height="172" alt="Intro_Modal" src="https://github.com/user-attachments/assets/28161ce9-c33d-4c1b-9c45-423252cc9bfa" />
